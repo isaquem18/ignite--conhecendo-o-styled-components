@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "ignite--conhecendo-o-styled-components",
+    "slug": "ignite--conhecendo-o-styled-components",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "ignite--conhecendo-o-styled-components"
+}
