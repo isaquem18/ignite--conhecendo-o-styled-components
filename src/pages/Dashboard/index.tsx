@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  TransactionsList
-} from './TransactionsList';
+import TransactionsList from './TransactionsList';
 
 import {
   StatusBar,

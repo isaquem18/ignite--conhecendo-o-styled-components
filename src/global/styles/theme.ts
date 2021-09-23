@@ -12,6 +12,7 @@ export default {
 
     blue_800: '#363F5F',
 
+    gray_800: '#525252',
     gray_500: '#969CB2',
     gray_200: '#F0F2F5',
 

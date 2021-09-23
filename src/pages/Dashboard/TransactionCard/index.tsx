@@ -11,18 +11,41 @@ import {
   Date
 } from './styles';
 
-export const TransactionCard = () => {
+interface CardProps {
+  "id": number;
+  "title": string;
+  "category": string;
+  "type": 'income' | 'cost';
+  "date": string;
+}
+
+interface InfoProps {
+  info: CardProps;
+}
+
+
+export const TransactionCard = ({ info: {  
+  id,
+  title,
+  category,
+  type,
+  date 
+}}: InfoProps) => {
+ 
+
+  console.log(type);
+
   return (
     <>
       <Container>
-        <Title>Desenvolvimento de site</Title>
-        <Amount>R$ 12.000,00</Amount>
+        <Title>{title}</Title>
+        <Amount type={type}>R$ 12.000,00</Amount>
         <Footer>
           <Category>
             <CategoryIcon name="dollar-sign" />
-            <CategoryText>Alimentação</CategoryText>
+            <CategoryText>{category}</CategoryText>
           </Category>
-          <Date>12/04/2022</Date>
+          <Date></Date>
         </Footer>
       </Container>
     </>

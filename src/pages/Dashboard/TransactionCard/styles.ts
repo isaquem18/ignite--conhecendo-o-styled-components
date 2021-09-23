@@ -8,6 +8,7 @@ export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.white};
   padding: ${RFValue(17)}px ${RFValue(24)}px;
   border-radius: 10px;
+  margin-bottom: 10px;
 `;
 
 export const Title = styled.Text`
@@ -19,8 +20,12 @@ export const Title = styled.Text`
 
 `;
 
-export const Amount = styled.Text`
-  color: ${({ theme }) => theme.colors.green_500};
+type AmountProps = {
+  type: 'income' | 'cost';
+};
+
+export const Amount = styled.Text<AmountProps>`
+  color: ${({ theme, type }) => type === 'income' ? theme.colors.green_500 : theme.colors.red_500};
   font-size: ${RFValue(20)}px;
   font-family: ${({ theme }) => theme.fonts.regular};
   margin-bottom: ${RFValue(19)}px;
