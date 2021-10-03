@@ -6,8 +6,9 @@ import {
     ButtonTitle
 } from './styles';
 
-interface ButtonProps extends TouchableOpacityProps {
+interface ButtonProps {
     title: string;
+    onPress?: (item: any) => void;
 }
 
 export const ButtonComponent = ({title, ...rest}: ButtonProps) => {

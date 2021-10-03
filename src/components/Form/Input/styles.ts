@@ -1,9 +1,10 @@
 import styled from 'styled-components/native';
 import { RFValue } from 'react-native-responsive-fontsize'; 
+import {
+    TextInput
+} from 'react-native';
 
-import { TextInputProps } from 'react-native';
-
-export const Container = styled.TextInput.attrs<TextInputProps>({
+export const Container = styled(TextInput).attrs({
     placeholderTextColor: "#969CB2"
 })`
     padding: 16px 18px;

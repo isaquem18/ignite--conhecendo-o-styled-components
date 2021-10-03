@@ -3,8 +3,8 @@ import { ThemeProvider } from 'styled-components';
 import AppLoading from 'expo-app-loading';
 
 import theme from './src/global/styles/theme';
-import { Dashboard } from './src/pages/Dashboard';
 import { Register } from './src/pages/Register';
+
 
 import {
   useFonts
@@ -15,6 +15,7 @@ import {
   Poppins_500Medium,
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
+import { StatusBar } from 'expo-status-bar';
 
 export default function App() {
 

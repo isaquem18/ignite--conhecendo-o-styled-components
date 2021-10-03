@@ -1,9 +1,11 @@
 import styled from 'styled-components/native';
 import { TouchableOpacityProps } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { RectButton, BorderlessButton } from 'react-native-gesture-handler';
 
-export const ButtonContainer = styled.TouchableOpacity.attrs<TouchableOpacityProps>({
-    activeOpacity: 0.8
+export const ButtonContainer = styled(RectButton).attrs({
+    underlayColor: '#000',
+    activeOpacity: 0.1
 })` 
     background-color: ${({theme}) => theme.colors.orange_500};
     border: none;
