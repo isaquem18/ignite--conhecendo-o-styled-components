@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
     Alert,
     Keyboard,
@@ -23,6 +26,29 @@ import {
     Title,
     TransactionTypes
 } from './styles';
+
+const schema = Yup.object().shape({
+	name: Yup
+		.string()
+        .min(4, 'minimo de 4 caracteres')
+		.required('nome e obrigatorio'),
+	amount: Yup
+		.number()
+		.typeError('informe apenas numeros')
+		.positive('informe um valor positivo')
+		.required('valor e obrigatorio')
+
+});
+
+interface Data {
+    amount: number;
+    transactionType: string;
+    name: string;
+    category: {
+        key: string;
+        name: string;
+    },
+}
 
 export const Register = () => {
     const [category, setCategory] = useState({
@@ -71,10 +97,39 @@ export const Register = () => {
             transactionType: selectedTypeButton,
             category
         }
-        console.log(data);
+        
+        storeData(data);
     }
 
-    const { control, handleSubmit, formState: { errors } } = useForm();
+    useEffect(() => {
+        (async () => {
+           // await AsyncStorage.removeItem('@goFinance:dataKey')
+        })()
+        
+    }, [])
+
+    const storeData = async (data: Data) => {
+        try {
+            const getData = await AsyncStorage.getItem('@goFinance:dataKey');
+            let oldData = getData ? JSON.parse(getData) : [];
+
+            const newData = [
+                ...oldData,
+                data
+            ];
+
+            await AsyncStorage.setItem('@goFinance:dataKey', JSON.stringify(newData));
+
+        } catch (error) {
+            Alert.alert('Erro', `${error}`);
+        }
+    }
+
+
+    const { control, handleSubmit, formState: { errors } } = useForm<any>({
+        resolver: yupResolver(schema)
+    });
+
 
     return (
         <>
@@ -93,12 +148,14 @@ export const Register = () => {
                                     control={control}
                                     autoCorrect={false}
                                     autoCapitalize="none"
+                                    error={errors.name && errors.name.message}
                                 />
                                 <InputForm 
                                     placeholder="Preço"
                                     name="amount"
                                     control={control}
                                     keyboardType="numeric"
+                                    error={errors.amount && errors.amount.message}
                                 />
                                 <TransactionTypes>
                                     <TransactionTypeButton 

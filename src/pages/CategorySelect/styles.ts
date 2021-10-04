@@ -5,12 +5,6 @@ import { Feather } from '@expo/vector-icons';
 import { StatusBar } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-export const StatusBarStyle = styled(StatusBar).attrs(({theme}) => ({
-  backgroundColor: theme.colors.purple_500,
-  translucent: true,
-  barStyle: 'light-content'
-}))``
-
 export const Container = styled(GestureHandlerRootView)`
   flex: 1;
   background-color: ${({theme}) => theme.colors.gray_200};

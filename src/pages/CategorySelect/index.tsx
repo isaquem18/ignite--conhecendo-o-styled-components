@@ -2,13 +2,11 @@ import React from 'react';
 
 import {
   FlatList,
-  StatusBar
 } from 'react-native';
 import { ButtonComponent } from '../../components/Form/Button';
 import { categories } from '../../utils/categories';
 
 import {
-  StatusBarStyle,
   Container,
   Header,
   Title,
@@ -37,7 +35,6 @@ export function CategorySelect({
 } : Props) {
   return (
     <>
-    <StatusBarStyle />
     <Container>
       <Header>
         <Title>Categoria</Title>

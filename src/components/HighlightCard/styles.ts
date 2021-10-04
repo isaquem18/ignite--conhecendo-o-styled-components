@@ -16,7 +16,6 @@ interface TextProps {
 export const Container = styled.View<BgProps>`
   background-color: ${({ theme, bg }) => bg === 'white' ? theme.colors.white : theme.colors.orange_500};
   width: ${RFPercentage(45)}px;
-  height: ${RFPercentage(28)}px;
   border-radius: 10px;
   padding: ${RFPercentage(2)}px ${RFPercentage(2.5)}px;
   padding-bottom: ${RFValue(43)}px;

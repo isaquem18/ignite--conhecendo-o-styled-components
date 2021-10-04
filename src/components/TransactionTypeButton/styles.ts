@@ -1,26 +1,17 @@
 import styled, { css } from 'styled-components/native';
 import { Feather } from '@expo/vector-icons';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
-import {
-  TouchableOpacity,
-  TouchableOpacityProps
-} from 'react-native';
+import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
 
-interface TransactionTypeButtonProps extends TouchableOpacityProps {
+interface TransactionTypeButtonProps extends RectButtonProps {
   type?: 'up' | 'down';
   selected: boolean;
   selectedTypeButton: string;
 }
 
-
-export const Container = styled(TouchableOpacity).attrs<TransactionTypeButtonProps>({
-  activeOpacity: 0.8
-})<TransactionTypeButtonProps>`
-  flex-direction: row;
-  align-items: center;
+export const Wrapper = styled.View<TransactionTypeButtonProps>`
+  height: ${RFPercentage(8)}px;
   border-radius: 6px;
-  padding: 16px 0;
-  justify-content: center;
   width: 48%;
  
 
@@ -36,6 +27,29 @@ export const Container = styled(TouchableOpacity).attrs<TransactionTypeButtonPro
 
 
   ${({selectedTypeButton, theme}) => selectedTypeButton === '' && css`border: 1.5px solid ${theme.colors.gray_500}90`}
+
+`;
+
+
+export const Container = styled(RectButton).attrs<TransactionTypeButtonProps>({
+  activeLayerColor: '#000',
+  activeOpacity: 0.05
+})<TransactionTypeButtonProps>`
+  flex-direction: row;
+  align-items: center;
+  padding: 16px 0;
+  justify-content: center;
+  flex: 1;
+ 
+   
+  ${({selected, type}) => selected && type === 'up' && css`
+    background-color: ${({theme}) => theme.colors.green_500}30
+  `}
+
+  ${ ({selected, type}) => selected && type === 'down' && css`
+    background-color: ${({theme}) => theme.colors.red_500}30
+  `}
+
 
 `;
 

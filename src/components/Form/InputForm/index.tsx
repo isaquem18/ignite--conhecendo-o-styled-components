@@ -1,20 +1,23 @@
 import React from 'react';
 import { TextInputProps } from 'react-native';
-import { Control, Controller, useForm } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 
 import { InputComponent } from '../Input';
 import { 
-  Container
+  Container,
+  Error
 } from './styles';
 
 interface Props extends TextInputProps {
-  control: Control;
+  control: any;
   name: string;
+  error: string;
 }
 
 export const InputForm = ({
   control,
   name,
+  error,
   ...rest
 }: Props) => {
 
@@ -26,12 +29,13 @@ export const InputForm = ({
           <InputComponent 
             {...rest}
             onChangeText={onChange}
-            onBlur={onBlur}
+            onBlur={onBlur} 
             value={value}
           />
         )}
         name={name}
       />  
+      {error && <Error>{error}</Error>}
     </Container>
   )
 }

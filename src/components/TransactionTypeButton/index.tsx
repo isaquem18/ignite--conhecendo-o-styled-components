@@ -2,9 +2,10 @@ import React from 'react';
 import { TouchableOpacityProps } from 'react-native';
 
 import {
+    Wrapper,
     Container,
     Icon,
-    Title
+    Title,
 } from './styles';
 
 interface TransactionTypeButtonProps {
@@ -22,21 +23,28 @@ const icons = {
 
 export const TransactionTypeButton = ({title, type, selected, onPress, selectedTypeButton}: TransactionTypeButtonProps) => {
     return (
-        <Container 
+        <Wrapper
             selected={selected} 
             onPress={onPress}
             type={type}
             selectedTypeButton={selectedTypeButton}
         >
-            <Icon 
-                name={icons[type]}
+            <Container 
                 selected={selected} 
+                onPress={onPress}
+                type={type}
                 selectedTypeButton={selectedTypeButton}
-                />
-            <Title
-                selected={selected} 
-                selectedTypeButton={selectedTypeButton}
-            >{title}</Title>
-        </Container>
+            >
+                <Icon 
+                    name={icons[type]}
+                    selected={selected} 
+                    selectedTypeButton={selectedTypeButton}
+                    />
+                <Title
+                    selected={selected} 
+                    selectedTypeButton={selectedTypeButton}
+                >{title}</Title>
+            </Container>
+        </Wrapper>
     )
 }

@@ -2,7 +2,6 @@ import React from 'react';
 import TransactionsList from './TransactionsList';
 
 import {
-  StatusBar,
   SafeAreaView
 } from 'react-native';
 
@@ -24,9 +23,7 @@ import {
 export const Dashboard = () => {
   return (
     <>
-      <StatusBar backgroundColor="#5636D3" />
       <Container>
-        <SafeAreaView>
           <Header>
             <UserWrapper>
               <UserInfo>
@@ -64,7 +61,6 @@ export const Dashboard = () => {
             />
           </HighlightCards>
           <TransactionsList />
-        </SafeAreaView>
       </Container>
     </>
   )

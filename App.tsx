@@ -3,7 +3,7 @@ import { ThemeProvider } from 'styled-components';
 import AppLoading from 'expo-app-loading';
 
 import theme from './src/global/styles/theme';
-import { Register } from './src/pages/Register';
+import { Routes } from './src/Routes/app.routes';
 
 
 import {
@@ -31,7 +31,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Register />
+      <Routes />
     </ThemeProvider>
   );
 }
