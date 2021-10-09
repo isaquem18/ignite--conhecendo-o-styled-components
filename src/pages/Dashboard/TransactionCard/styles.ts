@@ -21,11 +21,11 @@ export const Title = styled.Text`
 `;
 
 type AmountProps = {
-  type: 'income' | 'cost';
+  type: 'up' | 'down';
 };
 
 export const Amount = styled.Text<AmountProps>`
-  color: ${({ theme, type }) => type === 'income' ? theme.colors.green_500 : theme.colors.red_500};
+  color: ${({ theme, type }) => type === 'up' ? theme.colors.green_500 : theme.colors.red_500};
   font-size: ${RFValue(20)}px;
   font-family: ${({ theme }) => theme.fonts.regular};
   margin-bottom: ${RFValue(19)}px;

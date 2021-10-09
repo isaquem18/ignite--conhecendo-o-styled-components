@@ -3,18 +3,17 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import uuid from 'react-native-uuid';
 import {
     Alert,
     Keyboard,
     Modal,
-    StatusBar,
     TouchableWithoutFeedback
 } from 'react-native';
 
 import { ButtonComponent } from '../../components/Form/Button';
 import { CategorySelectButton } from '../../components/Form/CategorySelectButton';
-
-import { InputComponent } from '../../components/Form/Input';
 import { InputForm } from '../../components/Form/InputForm';
 import { TransactionTypeButton } from '../../components/TransactionTypeButton';
 import { CategorySelect } from '../CategorySelect';
@@ -41,6 +40,7 @@ const schema = Yup.object().shape({
 });
 
 interface Data {
+    id: string;
     amount: number;
     transactionType: string;
     name: string;
@@ -48,6 +48,7 @@ interface Data {
         key: string;
         name: string;
     },
+    date: string;
 }
 
 export const Register = () => {
@@ -58,8 +59,14 @@ export const Register = () => {
     const [ selectedTypeButton, setSelectedTypeButton ] = useState('');
     const [categoryModalOpen, setCategoryModalOpen] = useState(false);
 
-    function handleSelectTypeButton(type: 'up' | 'down') {
-        setSelectedTypeButton(type);
+    const navigation = useNavigation<any>();
+
+    const { control, handleSubmit, formState: { errors }, reset } = useForm<any>({
+        resolver: yupResolver(schema)
+    });
+
+    function handleSelectTypeButton(type: 'up' | 'down' | null) {
+        setSelectedTypeButton(type!);
     }
 
     function handleOpenModal() {
@@ -70,7 +77,22 @@ export const Register = () => {
         setCategoryModalOpen(false)
     }
 
-    function handleRegister(form: any) {
+    function handleResetForm() {
+        handleSelectTypeButton(null);
+        setSelectedTypeButton('');
+        setCategory({
+            key: 'category',
+            name: 'Categoria',
+        });
+        reset({
+            name: "",
+            amount: ""
+        });
+
+        navigation.navigate('dashboard');
+    };
+
+    async function handleRegister(form: any) {
         if (!selectedTypeButton) {
             return Alert.alert(
                 'Não foi possível concluir operação',
@@ -93,22 +115,26 @@ export const Register = () => {
         }
 
         const data = {
+            id: uuid.v4(),
             ...form,
             transactionType: selectedTypeButton,
-            category
+            category,
+            date: String(new Date()),
         }
         
-        storeData(data);
+        await storeData(data);
+        handleResetForm();        
     }
 
     useEffect(() => {
         (async () => {
-           // await AsyncStorage.removeItem('@goFinance:dataKey')
+           //await AsyncStorage.removeItem('@goFinance:dataKey')
         })()
         
     }, [])
 
     const storeData = async (data: Data) => {
+        const dataStorageKey = '@goFinance:dataKey';
         try {
             const getData = await AsyncStorage.getItem('@goFinance:dataKey');
             let oldData = getData ? JSON.parse(getData) : [];
@@ -117,19 +143,15 @@ export const Register = () => {
                 ...oldData,
                 data
             ];
+            
+            await AsyncStorage.setItem(dataStorageKey, JSON.stringify(newData));
 
-            await AsyncStorage.setItem('@goFinance:dataKey', JSON.stringify(newData));
+
 
         } catch (error) {
             Alert.alert('Erro', `${error}`);
         }
-    }
-
-
-    const { control, handleSubmit, formState: { errors } } = useForm<any>({
-        resolver: yupResolver(schema)
-    });
-
+    };
 
     return (
         <>

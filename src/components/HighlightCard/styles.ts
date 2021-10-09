@@ -18,8 +18,8 @@ export const Container = styled.View<BgProps>`
   width: ${RFPercentage(45)}px;
   border-radius: 10px;
   padding: ${RFPercentage(2)}px ${RFPercentage(2.5)}px;
-  padding-bottom: ${RFValue(43)}px;
   margin-right: ${RFValue(12)}px;
+  max-height: ${RFPercentage(22)}px;
 `;
 
 export const Header = styled.View`
@@ -27,7 +27,7 @@ export const Header = styled.View`
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: ${RFPercentage(4)}px;
+  margin-bottom: ${RFPercentage(2)}px;
 `;
 
 export const Title = styled.Text<TextProps>`

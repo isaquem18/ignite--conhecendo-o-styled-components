@@ -1,7 +1,12 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import { FontAwesome } from '@expo/vector-icons';
 import { getStatusBarHeight, ifIphoneX } from 'react-native-iphone-x-helper';
+
+import {
+  ActivityIndicator,
+  Platform
+} from 'react-native';
 
 export const Container = styled.View`
   flex: 1;
@@ -10,20 +15,17 @@ export const Container = styled.View`
 
 export const Header = styled.View`
   background-color: ${({ theme }) => theme.colors.purple_500};
-  height: ${RFPercentage(33)}px;
+  height: ${RFPercentage(30)}px;
   flex-direction: row;
   align-items: flex-start;
-  ${ifIphoneX({
-  paddingTop: `${getStatusBarHeight() + RFPercentage(4)}px`
-}, {
-  paddingTop: `${RFPercentage(4)}px`
-})}
+  padding-top: ${getStatusBarHeight()}px;
 `;
 
 export const UserInfo = styled.View`
   flex-direction: row;
   align-items: center;
-  flex: 1;
+  flex: 1; 
+
 `;
 
 export const UserWrapper = styled.View`
@@ -31,6 +33,7 @@ export const UserWrapper = styled.View`
   padding: 0 20px;
   flex-direction: row;
   align-items: center;
+  margin-top: ${RFPercentage(3.5)}px;
 `;
 
 export const Avatar = styled.Image`
@@ -69,5 +72,16 @@ export const HighlightCards = styled.ScrollView.attrs({
   }
 })`
 
-  margin-top: -${RFPercentage(14)}px;
+  margin-top: -${Platform.OS === 'ios' ? RFPercentage(12) : RFPercentage(9)}px;
+  width: 100%;
+  max-height: ${RFPercentage(24)}px;
+`;
+
+export const InitLoader = styled(ActivityIndicator).attrs(props => ({
+  color: props.theme.colors.purple_500,
+  size: Platform.OS === 'ios' ? 'large' : 30
+}))`
+  font-size: ${RFPercentage(8)}px;
+  align-self: center;
+  margin-top: 50%;
 `;

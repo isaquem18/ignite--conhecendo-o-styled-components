@@ -16,6 +16,7 @@ import { Dashboard } from '../pages/Dashboard';
 import { Register } from '../pages/Register';
 import {  } from 'react-native-gesture-handler';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
+import { Summary } from '../pages/Summary';
 
 
 const { Navigator, Screen } = createBottomTabNavigator();
@@ -41,8 +42,9 @@ export function Routes() {
             padding: 0
           },
           tabBarStyle: {
-            height: Platform.OS === 'ios' ? RFPercentage(14) : RFPercentage(10),
-            elevation: 0
+            height: Platform.OS === 'ios' ? RFPercentage(10) : RFPercentage(8),
+            elevation: 0,
+            borderTopWidth: 0
           },
           tabBarItemStyle: {
             justifyContent: 'center',
@@ -75,7 +77,7 @@ export function Routes() {
               />
             )
           }}/>
-          <Screen name="summary" component={Register} options={{
+          <Screen name="summary" component={Summary} options={{
             title: 'Resumo',
             tabBarIcon: ({ color, size, focused}) => (
               <MaterialIcons 
