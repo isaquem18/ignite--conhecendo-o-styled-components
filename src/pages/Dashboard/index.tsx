@@ -68,7 +68,7 @@ export const Dashboard = () => {
   } as CardSummary);
 
   function handleLastTransactions(transactionsList: CardProps[], upOrDown: 'up' | 'down') {
-    console.log(upOrDown);
+    
     const lastTransactions = Math.max.apply(Math, transactionsList
       .filter((item: CardProps) => item.transactionType === upOrDown)
       .map((item: CardProps) => new Date(item.date).getTime()));
