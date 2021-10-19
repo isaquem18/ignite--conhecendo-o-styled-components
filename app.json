@@ -1,11 +1,16 @@
 {
   "expo": {
-    "name": "ignite--conhecendo-o-styled-components",
-    "slug": "ignite--conhecendo-o-styled-components",
+    "name": "gofinances",
+    "slug": "gofinances",
+    "scheme": "gofinances",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "packagerOpts": {
+      "sourceExts": ["js", "jsx", "svgx"],
+      "transformer": "node_modules/react-native-svg-transformer/index.js"
+    }
   },
-  "name": "ignite--conhecendo-o-styled-components"
+  "name": "gofinances"
 }

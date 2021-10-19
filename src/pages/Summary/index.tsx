@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { ActivityIndicator, Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { VictoryPie } from 'victory-native';
 import { useTheme } from 'styled-components'; 
+import { addMonths, subMonths, format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 import { HistoryCard } from '../../components/HistoryCard';
 
@@ -15,14 +18,15 @@ import {
   MonthSelect,
   MonthSelectButton,
   MonthSelectIcon,
-  Month
+  Month,
+  LoaderContainer,
+  Loader,
+  NotFound
 } from './styles';
 
 import { categories } from '../../utils/categories';
 import { useFocusEffect } from '@react-navigation/core';
-import { Text, View } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
-import theme from '../../global/styles/theme';
 
 interface DataProps {
   id: string;
@@ -48,18 +52,38 @@ interface Props {
   item: categoryTotalProps;
 }
 
+
+
 export function Summary() {
+  const [ isLoading, setIsLoading ] = useState(true);
   const [ data, setData ] = useState([]);
   const [ selectedDate, setSelectedDate ] = useState(new Date());
 
   const theme = useTheme();
+
+  useEffect(() => {
+    console.log(selectedDate)
+  }, [selectedDate]);
+
+  function handleDateChange(action: 'next' | 'previous') {
+    setIsLoading(true);
+
+    let newDate;
+    if (action === 'next') {
+      setSelectedDate(addMonths(selectedDate, 1));
+    } else {
+      setSelectedDate(subMonths(selectedDate, 1));
+    }
+  }
 
   async function loadData() {
     const response = await AsyncStorage.getItem('@goFinance:dataKey');
     let responseFormatted = response ? JSON.parse(response) : [];
 
     const outcomesList = responseFormatted 
-      .filter((item: DataProps) => item.transactionType === 'down');
+      .filter((item: DataProps) => item.transactionType === 'down' &&
+      new Date(item.date).getFullYear() === new Date(selectedDate).getFullYear() &&
+      new Date(item.date).getMonth() === new Date(selectedDate).getMonth()); 
 
     const outcomesTotal = outcomesList.reduce((acumulator: number, item: DataProps) => {
       return acumulator += Number(item.amount);
@@ -97,11 +121,12 @@ export function Summary() {
       }
     })
     setData(totalByCategory);
+    setIsLoading(false);
   }
 
   useFocusEffect(useCallback(() => {
     loadData();
-  }, []))
+  }, [selectedDate]))
 
   return (
     <Container>
@@ -110,48 +135,61 @@ export function Summary() {
           </Header>
 
         <Content>
+        {isLoading ? (
+          <LoaderContainer><Loader /></LoaderContainer>
+        ) : (
+          <>
           <CategoryList 
             data={data}
             keyExtractor={(item: any) => item.name}
             ListHeaderComponent={() => (
-              <>
-                <MonthSelect>
-                  <MonthSelectButton>
-                    <MonthSelectIcon name="chevron-left"/>
-                  </MonthSelectButton>
+                <>
+                  <MonthSelect>
+                    <MonthSelectButton
+                      onPress={() => handleDateChange('previous')}
+                    >
+                      <MonthSelectIcon name="chevron-left"/>
+                    </MonthSelectButton>
 
-                    <Month>Janeiro</Month>
+                      <Month>{format(selectedDate, 'MMMM, yyyy', { locale: ptBR })}</Month>
 
-                  <MonthSelectButton>
-                    <MonthSelectIcon name="chevron-right"/>
-                  </MonthSelectButton>
-                </MonthSelect>
-                <ChartContent>
-                  <VictoryPie 
-                    data={data}
-                    x="percent"
-                    y="amountNotFormatted"
-                    colorScale={data.map((item: any) => item.color)}
-                    labelRadius={80}
-                    style={{
-                      labels: {
-                        fontSize: RFValue(13),
-                        fontWeight: 'bold',
-                        fill: theme.colors.white
-                      }
-                    }}
-                  />
-                </ChartContent>
-              </>
-            )}
-            renderItem={({item}: Props) => (
-              <HistoryCard 
-                color={item.color}
-                title={item.name}
-                amount={item.amountTotal}
-              />
-            )}
-          />
+                    <MonthSelectButton
+                      onPress={() => handleDateChange('next')}
+                    >
+                      <MonthSelectIcon name="chevron-right"/>
+                    </MonthSelectButton>
+                  </MonthSelect>
+                  <ChartContent>
+                    <VictoryPie 
+                      data={data}
+                      x="percent"
+                      y="amountNotFormatted"
+                      colorScale={data.map((item: any) => item.color)}
+                      labelRadius={80}
+                      style={{
+                        labels: {
+                          fontSize: RFValue(13),
+                          fontWeight: 'bold',
+                          fill: theme.colors.white
+                        }
+                      }}
+                    />
+                  </ChartContent>
+                </>
+              )}
+              renderItem={({item}: Props) => (
+                <HistoryCard 
+                  color={item.color}
+                  title={item.name}
+                  amount={item.amountTotal}
+                />
+              )}
+              ListEmptyComponent={() => (
+                <NotFound>Não há itens nessa data</NotFound>
+              )}
+            />
+            </>
+          )}
         </Content>
 
     </Container>

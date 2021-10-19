@@ -1,8 +1,9 @@
 import styled from 'styled-components/native';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
-import { FlatList } from 'react-native';
+import { FlatList, Platform } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { BorderlessButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
     background-color: ${({theme}) => theme.colors.gray_200};
@@ -63,7 +64,7 @@ export const MonthSelect = styled.View`
     margin-top: ${RFValue(41)}px;
 `;
 
-export const MonthSelectButton = styled.View``;
+export const MonthSelectButton = styled(BorderlessButton)``;
 
 export const Month = styled.Text`
     font-size: ${RFValue(20)}px;
@@ -75,4 +76,27 @@ export const Month = styled.Text`
 
 export const MonthSelectIcon = styled(Feather)`
     font-size: ${RFValue(24)}px;
+`;
+
+export const LoaderContainer = styled.View`
+    flex: 1;
+    width: 100%;
+
+    align-self: center;
+    justify-content: center;
+`;
+
+export const Loader = styled.ActivityIndicator.attrs(({theme}) => ({
+    color: theme.colors.purple_500,
+    size: Platform.OS === 'ios' ? 'large' : RFValue(30)
+}))``;
+
+export const NotFound = styled.Text`
+    font-family: ${({theme}) => theme.fonts.medium};
+    color: ${({theme}) => theme.colors.purple_500};
+    font-size: ${RFValue(16)}px;
+    position: absolute;
+    top: 50%; 
+    align-self: center;
+
 `;

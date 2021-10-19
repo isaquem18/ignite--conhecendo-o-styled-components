@@ -7,6 +7,7 @@ import AppLoading from 'expo-app-loading';
 import theme from './src/global/styles/theme';
 import { Routes } from './src/Routes/app.routes';
 
+import { AuthProvider } from './src/hooks/auth';
 
 import {
   useFonts
@@ -17,7 +18,8 @@ import {
   Poppins_500Medium,
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
-import { StatusBar } from 'expo-status-bar';
+
+import { SignIn } from './src/pages/SignIn';
 
 export default function App() {
 
@@ -32,8 +34,10 @@ export default function App() {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <Routes />
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <SignIn />
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
